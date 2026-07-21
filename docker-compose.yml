@@ -1,0 +1,57 @@
+name: ${COMPOSE_PROJECT_NAME:-retailmind-ai}
+
+services:
+  workspace:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        PYTHON_IMAGE: ${PYTHON_IMAGE:-python:3.12.13-slim-bookworm}
+        APP_UID: ${APP_UID:-10001}
+        APP_GID: ${APP_GID:-10001}
+    image: ${IMAGE_NAME:-retailmind-ai-workspace}:${IMAGE_TAG:-local}
+    init: true
+    stdin_open: true
+    tty: true
+    working_dir: /workspace
+    user: ${APP_UID:-10001}:${APP_GID:-10001}
+    command: ["sleep", "infinity"]
+    environment:
+      RETAILMIND_ENV: ${RETAILMIND_ENV:-development}
+      LOG_LEVEL: ${LOG_LEVEL:-INFO}
+      LOG_FORMAT: ${LOG_FORMAT:-json}
+      TZ: ${TZ:-UTC}
+      PYTHONPATH: ${PYTHONPATH:-/workspace/src}
+      CONFIG_ROOT: ${CONFIG_ROOT:-/workspace/config}
+      DATA_ROOT: ${DATA_ROOT:-/workspace/data}
+      MODEL_ROOT: ${MODEL_ROOT:-/workspace/models}
+      PROMPT_ROOT: ${PROMPT_ROOT:-/workspace/prompts}
+      REPORT_ROOT: ${REPORT_ROOT:-/workspace/reports}
+      AWS_REGION: ${AWS_REGION:-}
+      AWS_PROFILE: ${AWS_PROFILE:-}
+      AWS_ENDPOINT_URL: ${AWS_ENDPOINT_URL:-}
+      DATABASE_URL: ${DATABASE_URL:-}
+      OTEL_SERVICE_NAME: ${OTEL_SERVICE_NAME:-retailmind-ai}
+      OTEL_EXPORTER_OTLP_ENDPOINT: ${OTEL_EXPORTER_OTLP_ENDPOINT:-}
+      ERP_BASE_URL: ${ERP_BASE_URL:-}
+      ERP_SECRET_ARN: ${ERP_SECRET_ARN:-}
+    volumes:
+      - type: bind
+        source: .
+        target: /workspace
+    tmpfs:
+      - /tmp:size=256m,mode=1777
+    read_only: true
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    cpus: ${CONTAINER_CPU_LIMIT:-4.0}
+    mem_limit: ${CONTAINER_MEMORY_LIMIT:-8g}
+    healthcheck:
+      test: ["CMD", "python", "--version"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+    restart: "no"

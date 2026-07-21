@@ -1,0 +1,171 @@
+[build-system]
+requires = [
+    "setuptools==83.0.0",
+    "wheel==0.47.0",
+]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "retailmind-ai"
+version = "0.1.0"
+description = "Enterprise demand forecasting and inventory replenishment platform"
+readme = "README.md"
+requires-python = ">=3.12,<3.13"
+authors = [
+    { name = "RetailMind AI Engineering" },
+]
+classifiers = [
+    "Development Status :: 2 - Pre-Alpha",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3 :: Only",
+    "Typing :: Typed",
+]
+dynamic = ["dependencies"]
+
+[project.optional-dependencies]
+dev = [
+    "bandit==1.9.4",
+    "mypy==2.3.0",
+    "pip-audit==2.10.1",
+    "pre-commit==4.6.0",
+    "ruff==0.15.22",
+]
+test = [
+    "hypothesis==6.158.0",
+    "moto==5.2.2",
+    "pytest==9.1.1",
+    "pytest-asyncio==1.4.0",
+    "pytest-cov==7.1.0",
+    "pytest-xdist==3.8.0",
+    "testcontainers[postgres]==4.14.2",
+]
+
+[tool.setuptools.dynamic]
+dependencies = { file = ["requirements.txt"] }
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["retailmind_ai*"]
+namespaces = true
+
+[tool.ruff]
+target-version = "py312"
+line-length = 88
+src = ["src", "etl", "ml", "agents", "utils", "tests", "scripts"]
+exclude = [
+    ".git",
+    ".mypy_cache",
+    ".pytest_cache",
+    ".ruff_cache",
+    ".venv",
+    "build",
+    "data",
+    "dist",
+    "logs",
+    "models",
+    "reports",
+]
+
+[tool.ruff.format]
+docstring-code-format = true
+indent-style = "space"
+line-ending = "lf"
+quote-style = "double"
+
+[tool.ruff.lint]
+select = [
+    "A",
+    "ANN",
+    "ARG",
+    "ASYNC",
+    "B",
+    "BLE",
+    "C4",
+    "C90",
+    "D",
+    "DTZ",
+    "E",
+    "F",
+    "FBT",
+    "I",
+    "N",
+    "PERF",
+    "PIE",
+    "PL",
+    "PTH",
+    "RUF",
+    "S",
+    "SIM",
+    "T20",
+    "TRY",
+    "UP",
+    "W",
+]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**/*.py" = ["S101"]
+
+[tool.mypy]
+python_version = "3.12"
+plugins = ["pydantic.mypy"]
+mypy_path = "src"
+strict = true
+pretty = true
+show_error_codes = true
+show_error_context = true
+warn_unreachable = true
+exclude = [
+    "build/",
+    "data/",
+    "dist/",
+    "logs/",
+    "models/",
+    "reports/",
+]
+
+[tool.pytest.ini_options]
+minversion = "9.0"
+testpaths = ["tests"]
+pythonpath = ["src"]
+addopts = [
+    "--strict-config",
+    "--strict-markers",
+    "--cov=retailmind_ai",
+    "--cov-branch",
+    "--cov-report=term-missing",
+    "--cov-report=xml",
+    "--cov-fail-under=90",
+]
+asyncio_mode = "strict"
+markers = [
+    "contract: API, event, and data-contract tests",
+    "end_to_end: complete business-flow tests",
+    "integration: tests using external boundaries",
+    "performance: load and processing-window tests",
+    "security: security control and authorization tests",
+    "unit: isolated domain and application tests",
+]
+
+[tool.coverage.run]
+branch = true
+source = ["retailmind_ai"]
+parallel = true
+
+[tool.coverage.report]
+fail_under = 90
+show_missing = true
+skip_covered = true
+exclude_also = [
+    "if TYPE_CHECKING:",
+    "if __name__ == .__main__.:",
+    "raise NotImplementedError",
+]
+
+[tool.bandit]
+exclude_dirs = ["tests"]
+recursive = true

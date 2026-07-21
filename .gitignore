@@ -1,0 +1,98 @@
+# Python bytecode and caches
+__pycache__/
+*.py[cod]
+*$py.class
+.python-version
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Packaging and build output
+build/
+dist/
+*.egg-info/
+.eggs/
+wheels/
+
+# Test, type-checking, linting, and coverage output
+.coverage
+.coverage.*
+coverage.xml
+htmlcov/
+.hypothesis/
+.mypy_cache/
+.pytest_cache/
+.ruff_cache/
+.tox/
+.nox/
+
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+secrets/
+config/environments/**/secrets*
+
+# Runtime logs and generated reports
+logs/**
+reports/**
+*.log
+
+# Local data and model artifacts
+data/**
+!data/samples/
+models/**
+mlruns/
+mlartifacts/
+
+# Spark and local warehouse state
+derby.log
+metastore_db/
+spark-warehouse/
+.sparkStaging/
+
+# Jupyter
+.ipynb_checkpoints/
+*.nbconvert.ipynb
+
+# Power BI local and binary artifacts
+.pbi/
+*.pbix
+*.pbit
+
+# Docker local overrides
+docker-compose.override.yml
+
+# Terraform local state, if infrastructure is added later
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfplan
+crash.log
+
+# IDE and editor state
+.idea/
+.vscode/
+*.code-workspace
+*.suo
+*.user
+*.swp
+*.swo
+
+# Operating-system artifacts
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
+~$*

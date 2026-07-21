@@ -1,0 +1,38 @@
+# RetailMind AI direct production dependencies.
+# Versions were verified against stable PyPI releases on 2026-07-21.
+# Transitive dependencies are resolved by pip; a hash-locked deployment file
+# should be generated in a later dependency-governance phase.
+
+# AWS and configuration
+boto3==1.43.52
+pydantic==2.13.4
+pydantic-settings==2.14.2
+PyYAML==6.0.3
+
+# Logging, serialization, and resilience
+orjson==3.11.9
+structlog==26.1.0
+tenacity==9.1.4
+
+# API and enterprise integration
+fastapi==0.139.2
+httpx==0.28.1
+uvicorn[standard]==0.51.0
+
+# Transactional persistence
+alembic==1.18.5
+psycopg[binary,pool]==3.3.4
+SQLAlchemy==2.0.51
+
+# Data engineering and analytics
+numpy==2.5.1
+pandas==3.0.3
+pyarrow==25.0.0
+pyspark==4.2.0
+
+# Machine learning and statistical forecasting
+mlflow-skinny==3.14.0
+scikit-learn==1.9.0
+scipy==1.18.0
+statsmodels==0.14.6
+xgboost==3.3.0
